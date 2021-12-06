@@ -103,7 +103,7 @@ _(if need be, the event names can be customized via `options`)_
 2. Create a new tag `git tag -m "v2.2.0" v2.2.0`
 3. Release new NPM version (`npm whoami; npm publish`)
 4. Push the code + the tag to Github (`git push origin v2.2.0`)
-4. Make a new Github release (https://github.com/manuelstofer/pinchzoom/releases)
+4. Make a new Github release (https://github.com/magynhard/pinch-zoom-js-browser/releases)
 
 ## Troubleshooting
 
@@ -116,4 +116,4 @@ Licensed under the [MIT License](http://opensource.org/licenses/MIT).
 
 ## Github Page with demo
 
-https://magynhard.github.io/pinchzoom/
+https://magynhard.github.io/pinch-zoom-js-browser/
