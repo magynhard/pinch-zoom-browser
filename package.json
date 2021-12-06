@@ -1,6 +1,6 @@
 {
   "name": "pinch-zoom-browser",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Browser library for multi-touch gestures to zoom and drag on any DOM element.",
   "author": "Matthäus J. N. Beyrle",
   "license": "MIT",
@@ -23,14 +23,9 @@
     "src/pinch-zoom-browser.js"
   ],
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-plugin-transform-es3-member-expression-literals": "^6.22.0",
-    "babel-preset-env": "^1.7.0",
     "uglify-js": "^3.7.7"
   },
   "scripts": {
-    "build": "npm run babelfy && npm run uglify",
-    "babelfy": "node node_modules/babel-cli/bin/babel.js \"src/pinch-zoom-browser.js\" --out-file \"dist/pinch-zoom-browser.min.js\"",
-    "uglify": "node node_modules/uglify-js/bin/uglifyjs \"dist/pinch-zoom-browser.min.js\" -m -c -o \"dist/pinch-zoom-browser.min.js\""
+    "build": "node scripts/build.js"
   }
 }
