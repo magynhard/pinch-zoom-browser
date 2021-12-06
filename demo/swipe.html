@@ -78,7 +78,7 @@
 
     <script type='text/javascript'>
       Array.from(document.querySelectorAll('.pinch-zoom')).forEach(function(el) {
-        new PinchZoom.default(el, {});
+        new PinchZoom(el, {});
       });
 
       window.mySwipe = new Swipe(document.querySelector('#slider'), {
