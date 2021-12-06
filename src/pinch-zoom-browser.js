@@ -1,4 +1,6 @@
+//----------------------------------------------------------------------------------------
 // polyfills
+//----------------------------------------------------------------------------------------
 if (typeof Object.assign != 'function') {
     // Must be writable: true, enumerable: false, configurable: true
     Object.defineProperty(Object, "assign", {
@@ -34,21 +36,6 @@ if (typeof Array.from != 'function') {
     };
 }
 
-// utils
-var buildElement = function (str) {
-    // empty string as title argument required by IE and Edge
-    var tmp = document.implementation.createHTMLDocument('');
-    tmp.body.innerHTML = str;
-    return Array.from(tmp.body.children)[0];
-};
-
-var triggerEvent = function (el, name) {
-    var event = document.createEvent('HTMLEvents');
-    event.initEvent(name, true, false);
-    el.dispatchEvent(event);
-};
-
-
 /**
  * Pinch zoom
  * @param el
@@ -79,17 +66,15 @@ class PinchZoom {
             this.updateAspectRatio();
             this.setupOffsets();
         }
-
         this.enable();
-
     }
 
     /**
      * Event handler for 'dragstart'
-     * @param event
+     * @param {Event} event
      */
     handleDragStart(event) {
-        triggerEvent(this.el, this.options.dragStartEventName);
+        PinchZoom._triggerEvent(this.el, this.options.dragStartEventName);
         if (typeof this.options.onDragStart == "function") {
             this.options.onDragStart(this, event)
         }
@@ -101,7 +86,7 @@ class PinchZoom {
 
     /**
      * Event handler for 'drag'
-     * @param event
+     * @param {Event} event
      */
     handleDrag(event) {
         var touch = this.getTouches(event)[0];
@@ -111,7 +96,7 @@ class PinchZoom {
     }
 
     handleDragEnd() {
-        triggerEvent(this.el, this.options.dragEndEventName);
+        PinchZoom._triggerEvent(this.el, this.options.dragEndEventName);
         if (typeof this.options.onDragEnd == "function") {
             this.options.onDragEnd(this, event)
         }
@@ -120,10 +105,10 @@ class PinchZoom {
 
     /**
      * Event handler for 'zoomstart'
-     * @param event
+     * @param {Event} event
      */
     handleZoomStart(event) {
-        triggerEvent(this.el, this.options.zoomStartEventName);
+        PinchZoom._triggerEvent(this.el, this.options.zoomStartEventName);
         if (typeof this.options.onZoomStart == "function") {
             this.options.onZoomStart(this, event)
         }
@@ -136,7 +121,9 @@ class PinchZoom {
 
     /**
      * Event handler for 'zoom'
-     * @param event
+     *
+     * @param {Event} event
+     * @param {Number} newScale
      */
     handleZoom(event, newScale) {
         // a relative scale factor is used
@@ -155,7 +142,7 @@ class PinchZoom {
     }
 
     handleZoomEnd() {
-        triggerEvent(this.el, this.options.zoomEndEventName);
+        PinchZoom._triggerEvent(this.el, this.options.zoomEndEventName);
         if (typeof this.options.onZoomEnd == "function") {
             this.options.onZoomEnd(this, event)
         }
@@ -164,7 +151,7 @@ class PinchZoom {
 
     /**
      * Event handler for 'doubletap'
-     * @param event
+     * @param {Event} event
      */
     handleDoubleTap(event) {
         var center = this.getTouches(event)[0],
@@ -185,7 +172,7 @@ class PinchZoom {
         }
 
         this.animate(this.options.animationDuration, updateProgress, this.swing);
-        triggerEvent(this.el, this.options.doubleTapEventName);
+        PinchZoom._triggerEvent(this.el, this.options.doubleTapEventName);
         if (typeof this.options.onDoubleTap == "function") {
             this.options.onDoubleTap(this, event)
         }
@@ -274,7 +261,7 @@ class PinchZoom {
             x: (scale - 1) * (center.x + this.offset.x),
             y: (scale - 1) * (center.y + this.offset.y)
         });
-        triggerEvent(this.el, this.options.zoomUpdateEventName);
+        PinchZoom._triggerEvent(this.el, this.options.zoomUpdateEventName);
         if (typeof this.options.onZoomUpdate == "function") {
             this.options.onZoomUpdate(this, event)
         }
@@ -301,7 +288,7 @@ class PinchZoom {
      * @return {Boolean}
      */
     canDrag() {
-        return this.options.draggableUnzoomed || !PinchZoom.isCloseTo(this.zoomFactor, 1);
+        return this.options.draggableUnzoomed || !PinchZoom._isCloseTo(this.zoomFactor, 1);
     }
 
     /**
@@ -330,7 +317,7 @@ class PinchZoom {
                     x: -(center.x - lastCenter.x)
                 });
             }
-            triggerEvent(this.el, this.options.dragUpdateEventName);
+            PinchZoom._triggerEvent(this.el, this.options.dragUpdateEventName);
             if (typeof this.options.onDragUpdate == "function") {
                 this.options.onDragUpdate(this, event)
             }
@@ -353,10 +340,10 @@ class PinchZoom {
         return {
             x: vectors.map(function (v) {
                 return v.x;
-            }).reduce(PinchZoom.sum) / vectors.length,
+            }).reduce(PinchZoom._sum) / vectors.length,
             y: vectors.map(function (v) {
                 return v.y;
-            }).reduce(PinchZoom.sum) / vectors.length
+            }).reduce(PinchZoom._sum) / vectors.length
         };
     }
 
@@ -507,10 +494,11 @@ class PinchZoom {
     /**
      * Animation loop
      * does not support simultaneous animations
-     * @param duration
-     * @param framefn
-     * @param timefn
-     * @param callback
+     *
+     * @param {Number} duration
+     * @param {Function} framefn
+     * @param {Function} timefn
+     * @param {Function} callback
      */
     animate(duration, framefn, timefn, callback) {
         var startTime = new Date().getTime(),
@@ -550,7 +538,8 @@ class PinchZoom {
 
     /**
      * Swing timing function for animations
-     * @param p
+     *
+     * @param {Number} p
      * @return {Number}
      */
     swing(p) {
@@ -577,7 +566,7 @@ class PinchZoom {
      * Creates the expected html structure
      */
     setupMarkup() {
-        this.container = buildElement('<div class="pinch-zoom-container"></div>');
+        this.container = PinchZoom._buildElement('<div class="pinch-zoom-container"></div>');
         this.el.parentNode.insertBefore(this.container, this.el);
         this.container.appendChild(this.el);
 
@@ -618,6 +607,8 @@ class PinchZoom {
 
     /**
      * Updates the css values according to the current zoom factor and offset
+     *
+     * @param {'load','resize'} event
      */
     update(event) {
         if (event && event.type === 'resize') {
@@ -701,7 +692,10 @@ class PinchZoom {
         this.enabled = false;
     }
 
-
+    /**
+     * @param {Element} el
+     * @param {PinchZoom} target
+     */
     static detectGestures(el, target) {
         var interaction = null,
             fingers = 0,
@@ -845,11 +839,46 @@ class PinchZoom {
         });
     }
 
-    static sum(a, b) {
+    /**
+     * @param {String} str
+     * @returns {Element}
+     * @private
+     */
+    static _buildElement(str) {
+        // empty string as title argument required by IE and Edge
+        var tmp = document.implementation.createHTMLDocument('');
+        tmp.body.innerHTML = str;
+        return Array.from(tmp.body.children)[0];
+    }
+
+    /**
+     * @param {Element} el
+     * @param {String} name
+     * @private
+     */
+    static _triggerEvent(el, name) {
+        var event = document.createEvent('HTMLEvents');
+        event.initEvent(name, true, false);
+        el.dispatchEvent(event);
+    }
+
+    /**
+     * @param {Number} a
+     * @param {Number} b
+     * @returns {Number}
+     * @private
+     */
+    static _sum(a, b) {
         return a + b;
     }
 
-    static isCloseTo(value, expected) {
+    /**
+     * @param {Number} value
+     * @param {Number} expected
+     * @returns {boolean}
+     * @private
+     */
+    static _isCloseTo(value, expected) {
         return value > expected - 0.01 && value < expected + 0.01;
     }
 }
