@@ -1,11 +1,12 @@
 # PinchZoom.js for the browser.
 
 A fork of https://github.com/manuelstofer/pinchzoom.
+
 Refactored to run in the browser without any loading system.
 
 ## Installation
 
-- Get a plain or minified package from [releases]().
+- Get a plain or minified package from [releases](https://github.com/magynhard/pinch-zoom-browser-js/releases).
 
 ## Usage
 
@@ -97,14 +98,6 @@ pz_doubletap  Resetting the zoom with double-tap
 _(if need be, the event names can be customized via `options`)_
 
 
-## Release a New Version
-
-1. Make a bump commit (update package.json, package-lock.json and src)
-2. Create a new tag `git tag -m "v2.2.0" v2.2.0`
-3. Release new NPM version (`npm whoami; npm publish`)
-4. Push the code + the tag to Github (`git push origin v2.2.0`)
-4. Make a new Github release (https://github.com/magynhard/pinch-zoom-js-browser/releases)
-
 ## Troubleshooting
 
 - If you have issues with invisible images, make sure that the image isn't absolutely positioned.
@@ -112,8 +105,8 @@ _(if need be, the event names can be customized via `options`)_
 
 ## License
 
-Licensed under the [MIT License](http://opensource.org/licenses/MIT).
+Licensed under the [MIT License](LICENSE).
 
 ## Github Page with demo
 
-https://magynhard.github.io/pinch-zoom-js-browser/
+https://magynhard.github.io/pinch-zoom-browser-js/
