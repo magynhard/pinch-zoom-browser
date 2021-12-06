@@ -30,7 +30,7 @@
   },
   "scripts": {
     "build": "npm run babelfy && npm run uglify",
-    "babelfy": "node node_modules/babel-cli/bin/babel.js \"src/pinch-zoom-browser.min.js\" --out-file \"dist/pinch-zoom-browser.min.js\"",
+    "babelfy": "node node_modules/babel-cli/bin/babel.js \"src/pinch-zoom-browser.js\" --out-file \"dist/pinch-zoom-browser.min.js\"",
     "uglify": "node node_modules/uglify-js/bin/uglifyjs \"dist/pinch-zoom-browser.min.js\" -m -c -o \"dist/pinch-zoom-browser.min.js\""
   }
 }
