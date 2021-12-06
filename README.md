@@ -1,18 +1,16 @@
-# PinchZoom.js
+# PinchZoom.js for the browser.
 
-PinchZoom is a Javascript library providing multi-touch gestures for zooming and dragging on any DOM element.
+A fork of https://github.com/manuelstofer/pinchzoom.
+Refactored to run in the browser without any loading system.
 
 ## Installation
 
-- Use the [NPM package](https://www.npmjs.com/package/pinch-zoom-js).
-- Link directly to the [minified script](https://unpkg.com/pinch-zoom-js/dist/pinch-zoom.min.js) via [UNPKG](https://unpkg.com). Make sure you specify a version.
-- Compile from source. 👾
+- Get a plain or minified package from [releases]().
 
 ## Usage
 
 ### Requirements
-* No dependencies, built with vanilla JS.
-* A modern browser (ECMA 5 support, http://caniuse.com/use-strict).
+* No dependencies, built with vanilla JS
 
 ### Initialisation
 
@@ -118,4 +116,4 @@ Licensed under the [MIT License](http://opensource.org/licenses/MIT).
 
 ## Github Page with demo
 
-https://manuelstofer.github.com/pinchzoom/
+https://magynhard.github.io/pinchzoom/
